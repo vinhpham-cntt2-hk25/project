@@ -100,10 +100,10 @@ int updateTrip(int tripId, const char* destination, const char* time, int totalS
 
 void listTrips() {
     if (tripCount == 0) {
-        printf("Chua cÛ chuy?n n‡o.\n");
+        printf("Chua c√≥ chuy?n n√†o.\n");
         return;
     }
-    printf("Danh s·ch chuy?n:\n");
+    printf("Danh s√°ch chuy?n:\n");
     printf("ID\tDestination\tTime\t\tTotal\tBooked\tFare\n");
     for (int i = 0; i < tripCount; ++i) {
         Trip* t = trips[i];
@@ -143,11 +143,11 @@ int bookTicket(int ticketId, int tripId, const char* passengerName, int seats) {
 void checkTicket(int ticketId) {
     int idx = findTicketIndexById(ticketId);
     if (idx == -1) {
-        printf("Ticket ID %d khÙng t?n t?i.\n", ticketId);
+        printf("Ticket ID %d kh√¥ng t?n t?i.\n", ticketId);
         return;
     }
     Ticket* tk = tickets[idx];
-    printf("ThÙng tin vÈ:\n");
+    printf("Th√¥ng tin v√©:\n");
     printf("Ticket ID: %d\n", tk->ticketId);
     printf("Trip ID: %d\n", tk->tripId);
     printf("Passenger: %s\n", tk->passengerName);
@@ -215,19 +215,19 @@ void reportStatistics() {
             totalCancelled += tk->seats;
         }
     }
-    printf("=== B·o c·o th?ng kÍ ===\n");
+    printf("=== B√°o c√°o th?ng k√™ ===\n");
     printf("T?ng s? gh? d?t: %d\n", totalBooked);
-    printf("T?ng s? gh? d„ thanh to·n: %d\n", totalPaid);
-    printf("T?ng s? gh? d„ h?y: %d\n", totalCancelled);
-    printf("T?ng doanh thu (ch? tÌnh vÈ d„ thanh to·n): %.2f\n", revenue);
+    printf("T?ng s? gh? d√£ thanh to√°n: %d\n", totalPaid);
+    printf("T?ng s? gh? d√£ h?y: %d\n", totalCancelled);
+    printf("T?ng doanh thu (ch? t√≠nh v√© d√£ thanh to√°n): %.2f\n", revenue);
 }
 
 void listTickets() {
     if (ticketCount == 0) {
-        printf("Chua cÛ vÈ n‡o.\n");
+        printf("Chua c√≥ v√© n√†o.\n");
         return;
     }
-    printf("Danh s·ch vÈ:\n");
+    printf("Danh s√°ch v√©:\n");
     printf("TID\tTrip\tPassenger\tSeats\tPaid\tStatus\n");
     for (int i = 0; i < ticketCount; ++i) {
         Ticket* tk = tickets[i];
@@ -254,18 +254,18 @@ void preloadSampleData() {
 }
 
 void showMenu() {
-    printf("\n======= QU?N L› V… XE KH¡CH =======\n");
-    printf("1. ThÍm chuy?n xe m?i\n");
+    printf("\n======= QU?N L√ù V√â XE KH√ÅCH =======\n");
+    printf("1. Th√™m chuy?n xe m?i\n");
     printf("2. C?p nh?t chuy?n xe\n");
-    printf("3. Li?t kÍ chuy?n xe\n");
-    printf("4. –?t vÈ\n");
-    printf("5. Ki?m tra vÈ theo ticketId\n");
-    printf("6. Li?t kÍ vÈ\n");
-    printf("7. Thanh to·n vÈ\n");
-    printf("8. KhÛa vÈ\n");
-    printf("9. H?y vÈ\n");
-    printf("10. B·o c·o th?ng kÍ & doanh thu\n");
-    printf("0. Tho·t\n");
+    printf("3. Li?t k√™ chuy?n xe\n");
+    printf("4. √ê?t v√©\n");
+    printf("5. Ki?m tra v√© theo ticketId\n");
+    printf("6. Li?t k√™ v√©\n");
+    printf("7. Thanh to√°n v√©\n");
+    printf("8. Kh√≥a v√©\n");
+    printf("9. H?y v√©\n");
+    printf("10. B√°o c√°o th?ng k√™ & doanh thu\n");
+    printf("0. Tho√°t\n");
     printf("Ch?n ch?c nang: ");
 }
 
@@ -274,108 +274,138 @@ int main() {
     int choice;
     preloadSampleData();
 
-    while (1) {
-        showMenu();
-        read_line(buf, STR_LEN);
-        choice = atoi(buf);
-        if (choice == 0) {
-            printf("Tho·t chuong trÏnh. Goodbye!\n");
+while (1) {
+    showMenu();
+    read_line(buf, STR_LEN);
+    choice = atoi(buf);
+
+    switch (choice) {
+
+        case 0:
+            printf("Tho√°t ch∆∞∆°ng tr√¨nh. T·∫°m bi·ªát!\n");
+            cleanup();
+            return 0;
+
+        case 1: {
+            printf("Th√™m chuy·∫øn xe m·ªõi\n");
+
+            printf("Nh·∫≠p m√£ chuy·∫øn: "); read_line(buf, STR_LEN); 
+            int tripId = atoi(buf);
+
+            printf("Nh·∫≠p ƒëi·ªÉm ƒë·∫øn: "); 
+            char dest[50]; read_line(dest, 50); trim(dest);
+
+            printf("Nh·∫≠p th·ªùi gian kh·ªüi h√†nh: "); 
+            char timeS[50]; read_line(timeS, 50); trim(timeS);
+
+            printf("Nh·∫≠p t·ªïng s·ªë gh·∫ø: "); 
+            read_line(buf, STR_LEN); int seats = atoi(buf);
+
+            printf("Nh·∫≠p gi√° v√©: "); 
+            read_line(buf, STR_LEN); double fare = atof(buf);
+
+            int r = addTrip(tripId, dest, timeS, seats, fare);
+            if (r == 0) printf("Th√™m chuy·∫øn th√†nh c√¥ng!\n");
+            else printf("L·ªói: m√£ l·ªói %d\n", r);
             break;
         }
 
-        if (choice == 1) {
-            printf("ThÍm chuy?n xe m?i\n");
-            printf("Nh?p tripId (s? nguyÍn): ");
-            read_line(buf, STR_LEN); int tripId = atoi(buf);
-            printf("Nh?p destination: ");
+        case 2: {
+            printf("C·∫≠p nh·∫≠t chuy·∫øn xe\n");
+
+            printf("Nh·∫≠p m√£ chuy·∫øn: "); read_line(buf, STR_LEN); 
+            int tripId = atoi(buf);
+
+            if (findTripIndexById(tripId) == -1) {
+                printf("Kh√¥ng t√¨m th·∫•y chuy·∫øn xe!\n");
+                break;
+            }
+
+            printf("Nh·∫≠p ƒëi·ªÉm ƒë·∫øn m·ªõi: "); 
             char dest[50]; read_line(dest, 50); trim(dest);
-            printf("Nh?p time (vd: 2025-12-01 08:00): ");
+
+            printf("Nh·∫≠p th·ªùi gian m·ªõi: "); 
             char timeS[50]; read_line(timeS, 50); trim(timeS);
-            printf("Nh?p totalSeats (s? nguyÍn > 0): ");
-            read_line(buf, STR_LEN); int totalSeats = atoi(buf);
-            printf("Nh?p fare (gi· 1 gh?, vÌ d? 150000): ");
+
+            printf("Nh·∫≠p t·ªïng gh·∫ø m·ªõi: "); 
+            read_line(buf, STR_LEN); int seats = atoi(buf);
+
+            printf("Nh·∫≠p gi√° v√© m·ªõi: "); 
             read_line(buf, STR_LEN); double fare = atof(buf);
 
-            int r = addTrip(tripId, dest, timeS, totalSeats, fare);
-            if (r == 0) printf("ThÍm chuy?n th‡nh cÙng.\n");
-            else if (r == -1) printf("L?i: tripId d„ t?n t?i.\n");
-            else if (r == -3) printf("L?i: totalSeats ph?i > 0.\n");
-            else printf("L?i: khÙng th? thÍm (code %d).\n", r);
+            int r = updateTrip(tripId, dest, timeS, seats, fare);
+            if (r == 0) printf("C·∫≠p nh·∫≠t th√†nh c√¥ng!\n");
+            else printf("L·ªói: m√£ l·ªói %d\n", r);
+            break;
         }
-        else if (choice == 2) {
-            printf("C?p nh?t chuy?n xe\n");
-            printf("Nh?p tripId c?n s?a: "); read_line(buf, STR_LEN); int tripId = atoi(buf);
-            int idx = findTripIndexById(tripId);
-            if (idx == -1) { printf("TripId khÙng t?n t?i.\n"); continue; }
-            printf("Nh?p destination m?i: "); char dest[50]; read_line(dest, 50); trim(dest);
-            printf("Nh?p time m?i: "); char timeS[50]; read_line(timeS, 50); trim(timeS);
-            printf("Nh?p totalSeats m?i: "); read_line(buf, STR_LEN); int totalSeats = atoi(buf);
-            printf("Nh?p fare m?i: "); read_line(buf, STR_LEN); double fare = atof(buf);
 
-            int r = updateTrip(tripId, dest, timeS, totalSeats, fare);
-            if (r == 0) printf("C?p nh?t th‡nh cÙng.\n");
-            else if (r == -2) printf("L?i: totalSeats < bookedSeats (khÙng th? gi?m s? gh? th?p hon d„ d?t).\n");
-            else printf("L?i: khÙng th? c?p nh?t (code %d).\n", r);
-        }
-        else if (choice == 3) {
+        case 3:
             listTrips();
-        }
-        else if (choice == 4) {
-            printf("–?t vÈ\n");
-            printf("Nh?p ticketId (s? nguyÍn): "); read_line(buf, STR_LEN); int ticketId = atoi(buf);
-            printf("Nh?p tripId: "); read_line(buf, STR_LEN); int tripId = atoi(buf);
-            printf("Nh?p passengerName: "); char pname[50]; read_line(pname, 50); trim(pname);
-            printf("Nh?p seats (s? gh? d?t): "); read_line(buf, STR_LEN); int seats = atoi(buf);
+            break;
 
-            int r = bookTicket(ticketId, tripId, pname, seats);
-            if (r == 0) printf("–?t vÈ th‡nh cÙng.\n");
-            else if (r == -1) printf("L?i: ticketId d„ t?n t?i.\n");
-            else if (r == -2) printf("L?i: tripId khÙng t?n t?i.\n");
-            else if (r == -3) printf("L?i: seats ph?i > 0.\n");
-            else if (r == -5) printf("L?i: khÙng cÚn d? gh?.\n");
-            else printf("L?i: khÙng th? d?t vÈ (code %d).\n", r);
+        case 4: {
+            printf("ƒê·∫∑t v√©\n");
+
+            printf("Nh·∫≠p m√£ v√©: "); read_line(buf, STR_LEN); 
+            int tid = atoi(buf);
+
+            printf("Nh·∫≠p m√£ chuy·∫øn: "); read_line(buf, STR_LEN); 
+            int tripId = atoi(buf);
+
+            printf("Nh·∫≠p t√™n h√†nh kh√°ch: "); 
+            char name[50]; read_line(name, 50); trim(name);
+
+            printf("Nh·∫≠p s·ªë gh·∫ø ƒë·∫∑t: "); 
+            read_line(buf, STR_LEN); int seats = atoi(buf);
+
+            int r = bookTicket(tid, tripId, name, seats);
+            if (r == 0) printf("ƒê·∫∑t v√© th√†nh c√¥ng!\n");
+            else printf("L·ªói: m√£ l·ªói %d\n", r);
+            break;
         }
-        else if (choice == 5) {
-            printf("Ki?m tra vÈ\nNh?p ticketId: "); read_line(buf, STR_LEN); int ticketId = atoi(buf);
-            checkTicket(ticketId);
-        }
-        else if (choice == 6) {
+
+        case 5:
+            printf("Nh·∫≠p m√£ v√©: "); 
+            read_line(buf, STR_LEN);
+            checkTicket(atoi(buf));
+            break;
+
+        case 6:
             listTickets();
-        }
-        else if (choice == 7) {
-            printf("Thanh to·n vÈ\nNh?p ticketId: "); read_line(buf, STR_LEN); int ticketId = atoi(buf);
-            int r = payTicket(ticketId);
-            if (r == 0) printf("Thanh to·n th‡nh cÙng.\n");
-            else if (r == -1) printf("TicketId khÙng t?n t?i.\n");
-            else if (r == -2) printf("VÈ khÙng ? tr?ng th·i active, khÙng th? thanh to·n.\n");
-            else if (r == -3) printf("VÈ d„ du?c thanh to·n tru?c dÛ.\n");
-            else printf("L?i thanh to·n (code %d).\n", r);
-        }
-        else if (choice == 8) {
-            printf("KhÛa vÈ\nNh?p ticketId: "); read_line(buf, STR_LEN); int ticketId = atoi(buf);
-            int r = lockTicket(ticketId);
-            if (r == 0) printf("KhÛa vÈ th‡nh cÙng.\n");
-            else if (r == -1) printf("TicketId khÙng t?n t?i.\n");
-            else if (r == -2) printf("Ch? cÛ th? khÛa vÈ dang ? tr?ng th·i active.\n");
-            else printf("L?i khi khÛa vÈ (code %d).\n", r);
-        }
-        else if (choice == 9) {
-            printf("H?y vÈ\nNh?p ticketId: "); read_line(buf, STR_LEN); int ticketId = atoi(buf);
-            int r = cancelTicket(ticketId);
-            if (r == 0) printf("H?y vÈ th‡nh cÙng (gh? d„ du?c gi?i phÛng n?u cÛ).\n");
-            else if (r == -1) printf("TicketId khÙng t?n t?i.\n");
-            else if (r == -2) printf("Ch? cÛ th? h?y vÈ dang ? tr?ng th·i active.\n");
-            else if (r == -3) printf("KhÙng th? h?y vÈ d„ du?c thanh to·n.\n");
-            else printf("L?i khi h?y vÈ (code %d).\n", r);
-        }
-        else if (choice == 10) {
-            reportStatistics();
-        }
-        else {
-            printf("L?a ch?n khÙng h?p l?. Vui lÚng ch?n l?i.\n");
-        }
-    }
+            break;
 
-    cleanup();
+        case 7: {
+            printf("Thanh to√°n v√©\nNh·∫≠p m√£ v√©: "); 
+            read_line(buf, STR_LEN);
+            int r = payTicket(atoi(buf));
+            printf(r == 0 ? "Thanh to√°n th√†nh c√¥ng!\n" : "Thanh to√°n th·∫•t b·∫°i!\n");
+            break;
+        }
+
+        case 8: {
+            printf("Kh√≥a v√©\nNh·∫≠p m√£ v√©: "); 
+            read_line(buf, STR_LEN);
+            int r = lockTicket(atoi(buf));
+            printf(r == 0 ? "Kh√≥a v√© th√†nh c√¥ng!\n" : "Kh√≥a v√© th·∫•t b·∫°i!\n");
+            break;
+        }
+
+        case 9: {
+            printf("H·ªßy v√©\nNh·∫≠p m√£ v√©: "); 
+            read_line(buf, STR_LEN);
+            int r = cancelTicket(atoi(buf));
+            printf(r == 0 ? "H·ªßy v√© th√†nh c√¥ng!\n" : "H·ªßy v√© th·∫•t b·∫°i!\n");
+            break;
+        }
+
+        case 10:
+            reportStatistics();
+            break;
+
+        default:
+            printf("L·ª±a ch·ªçn kh√¥ng h·ª£p l·ªá!\n");
+    }
+}
     return 0;
 }
+
